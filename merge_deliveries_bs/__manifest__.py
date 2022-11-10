@@ -19,5 +19,5 @@
     'version': '14.0',
     'application': True,
     'installable': True,
-    'currency': 'USD',
+    'currency': 'USD' ,
 }

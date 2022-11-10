@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="product_template_action" model="ir.actions.act_window">
+        <field name="name">Variantes de productos</field>
+        <field name="res_model">product.product</field>
+        <field name="view_mode">kanban,tree,form</field>
+    </record>
+
+    <menuitem id="sale_product_product_menu" parent="sale.product_menu_catalog"
+        action="product_template_action" sequence="1000"/>
+
+
+    <!-- Modifica el tree view para agregar los campos custom -->
+    <!--<record id="view_order_tree" model="ir.ui.view">
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="inside">
+                <field name="estatus_crm"/>
+                <field name="folio_pedido"/>
+            </xpath>
+        </field>
+    </record>-->
+
+    <!-- Modifica el tree view para agregar los campos custom -->
+    <record id="view_order_tree" model="ir.ui.view">
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="inside">
+                <field name="estatus_crm"/>
+                <field name="folio_pedido"/>
+            </xpath>
+            <field name="partner_id" position="after">
+                <field name="branch_id"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Modifica el form view para agregar los campos custom -->
+    <record id="view_order_form" model="ir.ui.view">
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <field name="payment_term_id" position="after">
+                <field name="estatus_crm"/>
+                <field name="folio_pedido"/>
+            </field>
+            <xpath expr="//sheet/notebook/page[@name='customer_signature']" position="after">
+                <page name="crm_status_history" string="Historial de estatus">
+                    <group>
+                        <field name="crm_status_history" readonly="1">
+                            <tree>
+                                <field name="status"/>
+                                <field name="date"/>
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
+            <field name="partner_shipping_id" position="after">
+                <field name="branch_id"/>
+            </field>
+        </field>
+    </record>
+</odoo>

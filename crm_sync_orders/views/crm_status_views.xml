@@ -12,11 +12,12 @@
 
 
     <record id="crm_status_view_tree" model="ir.ui.view">
-        <field name="name">POS Visits Form</field>
+        <field name="name">Estatus CRM List</field>
         <field name="model">crm.status</field>
         <field name="arch" type="xml">
             <tree string="Estatus CRM">
                 <field name="name"/>
+                <field name="portal_label"/>
                 <field name="code"/>
             </tree>
         </field>
@@ -24,13 +25,14 @@
 
 
     <record id="crm_status_view_form" model="ir.ui.view">
-        <field name="name">POS Visits Form</field>
+        <field name="name">Estatus CRM Form</field>
         <field name="model">crm.status</field>
         <field name="arch" type="xml">
             <form>
                 <sheet>
                     <group>
                         <field name="name"/>
+                        <field name="portal_label"/>
                         <field name="code"/>
                     </group>
                 </sheet>

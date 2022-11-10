@@ -1,3 +1,5 @@
+import requests
+
 from odoo import models, fields, api
 from odoo.exceptions import UserError
 from odoo.tools.float_utils import float_compare, float_is_zero, float_round
@@ -5,6 +7,29 @@ from odoo.tools.float_utils import float_compare, float_is_zero, float_round
 class Picking(models.Model):
     _inherit = 'stock.picking'
 
+
+    def button_validate(self):
+        res = super().button_validate()
+        if self.sale_id.folio_pedido:
+            url = f"https://crmpiedica.com/api/api.php?id_pedido={self.sale_id.folio_pedido}&id_etapa=6"
+
+            # no. seguimiento
+            url += '&guia_rastreo=' + (self.carrier_tracking_ref if self.carrier_tracking_ref else '')
+
+            # transportista
+            url += '&transportista=' + (self.carrier_id.name if self.carrier_id else '')
+
+            token = self.env['ir.config_parameter'].sudo().get_param("crm.sync.token")
+            headers = {'Content-Type': 'application/json', 'Authorization': f'Bearer {token}'}
+            response = requests.patch(url, headers=headers)
+            self.sale_id.message_post(body=response.content)
+            crm_status = self.env["crm.status"].search([("code", "=", "6")], limit=1)
+
+            if crm_status:
+                self.sale_id.write({'estatus_crm': crm_status.id})
+                self.sale_id.create_estatus_crm()
+
+        return res
 
     def p_button_validate(self):
         # Clean-up the context key at validation to avoid forcing the creation of immediate

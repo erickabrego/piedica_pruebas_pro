@@ -1,4 +1,4 @@
-from odoo import models, fields, api
+from odoo import models, fields
 
 class CRMStatus(models.Model):
     _name = 'crm.status'
@@ -8,3 +8,4 @@ class CRMStatus(models.Model):
 
     code = fields.Integer('Clave')
     name = fields.Char('Nombre')
+    portal_label = fields.Char('Nombre en portal')

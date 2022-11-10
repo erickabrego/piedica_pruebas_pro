@@ -1,6 +1,4 @@
-import datetime
-
-from odoo import models, fields, api
+from odoo import models, fields
 
 class StatusHistory(models.Model):
     _name = 'crm.status.history'

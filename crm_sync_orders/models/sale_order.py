@@ -179,11 +179,11 @@ class SaleOrder(models.Model):
             if is_adjustment:
                 mrp_bom = self.env['mrp.bom'].sudo().search([
                     ('product_tmpl_id', '=', mrp_order.product_tmpl_id.id),
-                    ('code', '=', 'Ajuste')
+                    ('code', '=', 'Ajuste'),('company_id','in',[mrp_order.company_id.id,False])
                 ],limit=1)
             else:
                 mrp_bom = self.env['mrp.bom'].sudo().search([
-                    ('product_tmpl_id.id', '=', mrp_order.product_tmpl_id.id),
+                    ('product_tmpl_id.id', '=', mrp_order.product_tmpl_id.id),('company_id','in',[mrp_order.company_id.id,False])
                 ],limit=1)
 
             # Materiales del producto
@@ -213,7 +213,8 @@ class SaleOrder(models.Model):
             # Hay que rehacer las órdenes de trabajo dado que la lista de
             # materiales muy probablemente haya cambiado
             mrp_order.workorder_ids.unlink()
-            mrp_order.write({'bom_id': mrp_bom.id,})
+            if mrp_bom:
+                mrp_order.write({'bom_id': mrp_bom.id,})
             mrp_order._onchange_workorder_ids()
 
             mrp_order.write({'move_raw_ids': components_data,'p_design_link': design_link})

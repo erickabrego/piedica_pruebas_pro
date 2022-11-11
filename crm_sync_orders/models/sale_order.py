@@ -15,7 +15,7 @@ class SaleOrder(models.Model):
     folio_pedido = fields.Char('Folio del pedido', readonly=True, copy=False)
     crm_status_history = fields.One2many('crm.status.history', 'sale_order', string='Historial de estatus', readonly=True, copy=False)
     observations = fields.Text(string='Observaciones')
-    x_studio_selection_field_waqzv = fields.Selection([('Adicional','Adicional'),('PSA', 'PSA'),('Primera Orden','Primera Orden'),('PSA Mismo Proyecto','PSA Mismo Proyecto'),('PSI','PSI'),('Segunda Orden','Segunda Orden'),('Otros','Otros'),('Error','Error')], string='Tipo pedido')
+    x_studio_selection_field_waqzv = fields.Selection([('Adicional','Adicional'),('PSA', 'PSA'),('Primera Orden','Primera Orden'),('PSA Mismo Proyecto','PSA Mismo Proyecto'),('PSI','PSI'),('Segunda Orden','Segunda Orden'),('Otros','Otros'),('Error','Error'),('Plantillas con receta','Plantillas con receta'),('Consulta','Consulta'),('Solo Estudio','Solo Estudio')], string='Tipo pedido')
     p_ask_for_send_to_crm = fields.Boolean(default=True, copy=False)
     is_adjustment = fields.Boolean(string="Es ajuste", default=False)
 
